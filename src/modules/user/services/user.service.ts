@@ -9,6 +9,11 @@ import { User, UserDocument } from '../schemas/user.schema';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
+  private async hashPassword(password: string): Promise<string> {
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
+  }
+
   async findUserByEmail(email: string): Promise<User | null> {
     return this.userModel.findOne({ email });
   }
@@ -18,7 +23,7 @@ export class UserService {
     email: string,
     password: string,
   ): Promise<User> {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await this.hashPassword(password);
     return this.userModel.create({
       name,
       email,

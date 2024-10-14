@@ -5,3 +5,9 @@ export interface SignupResponse {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface SigninResponse {
+  user: Omit<User, 'password'>;
+  accessToken: string;
+  refreshToken: string;
+}

@@ -2,8 +2,8 @@ import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseInterceptor } from 'src/modules/interceptors/response/response.interceptor';
 
-import { SignupResponse } from '../auth.interface';
-import { SignupDto } from '../dto/auth.dto';
+import { SigninResponse, SignupResponse } from '../auth.interface';
+import { SigninDto, SignupDto } from '../dto/auth.dto';
 import { AuthService } from '../services/auth.service';
 
 @ApiTags('Auth')
@@ -20,5 +20,13 @@ export class AuthController {
   async signup(@Body() signupDto: SignupDto): Promise<SignupResponse> {
     const { name, email, password } = signupDto;
     return this.authService.signup(name, email, password);
+  }
+
+  @ApiOperation({ summary: 'Sign in a user' })
+  @UseInterceptors(ResponseInterceptor)
+  @Post('signin')
+  async signin(@Body() signinDto: SigninDto): Promise<SigninResponse> {
+    const { email, password } = signinDto;
+    return this.authService.signin(email, password);
   }
 }
