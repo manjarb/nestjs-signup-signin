@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    container_name: my-mongo-container
+    ports:
+      - "27017:27017"  # Map the container port to the host port
+    volumes:
+      - mongo-data:/data/db  # Persist MongoDB data in a named volume
+
+volumes:
+  # to persist the MongoDB data across container restarts.
+  mongo-data:

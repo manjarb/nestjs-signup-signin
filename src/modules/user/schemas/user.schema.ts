@@ -1,5 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import {
+  PASSWORD_ERROR_MESSAGE,
+  PASSWORD_REGEX,
+} from 'src/constant/password.constants';
 
 export type UserDocument = User & Document;
 
@@ -16,7 +20,10 @@ export class User extends Document {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({
+    required: true,
+    minlength: 8,
+  })
   password: string;
 
   @Prop({ type: String, enum: UserRole, default: UserRole.USER })
