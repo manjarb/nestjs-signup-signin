@@ -2,19 +2,29 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
 
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './filters/global-exception.filter.ts';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
 
-  // Enable API versioning with URI strategy
+  app.use(helmet());
+
+  // Enable CORS with dynamic origins
+  app.enableCors({
+    origin: configService.get<string>('ALLOWED_ORIGINS').split(','),
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token'],
+  });
+
   app.enableVersioning({
     type: VersioningType.URI,
   });
 
-  // Enable validation globally
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // Automatically remove properties not in DTOs
@@ -23,13 +33,10 @@ async function bootstrap() {
     }),
   );
 
-  // Apply the global exception filter
   app.useGlobalFilters(new GlobalExceptionFilter());
 
-  const configService = app.get(ConfigService);
-  const port = configService.get<number>('PORT') || 3000; // Fallback to port 3000 if not defined
+  const port = configService.get<number>('PORT') || 3000;
 
-  // Setup Swagger
   const config = new DocumentBuilder()
     .setTitle('Authentication API')
     .setDescription(
