@@ -1,9 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import {
-  PASSWORD_ERROR_MESSAGE,
-  PASSWORD_REGEX,
-} from 'src/constant/password.constants';
 
 export type UserDocument = User & Document;
 
