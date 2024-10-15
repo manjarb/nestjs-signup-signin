@@ -39,5 +39,6 @@ export class SigninDto {
     example: 'Password@123',
   })
   @IsString()
+  @Matches(PASSWORD_REGEX, { message: PASSWORD_ERROR_MESSAGE })
   readonly password: string;
 }

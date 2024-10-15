@@ -8,7 +8,16 @@ export enum UserRole {
   ADMIN = 'admin',
 }
 
-@Schema({ timestamps: true })
+@Schema({
+  timestamps: true,
+  versionKey: false,
+  toObject: {
+    transform: (doc, ret) => {
+      delete ret.__v;
+      return ret;
+    },
+  },
+})
 export class User extends Document {
   @Prop({ required: true })
   name: string;
