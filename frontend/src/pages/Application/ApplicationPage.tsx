@@ -1,14 +1,23 @@
-import { Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
+import { useAuthStore } from '../../store/auth/useAuthStore';
 
 function ApplicationPage() {
+  const { user } = useAuthStore();
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
         Welcome to the Application
       </Typography>
-      <Typography>
-        This is the main application page that users will see after signing in.
-      </Typography>
+      {user ? (
+        <Box>
+          <Typography variant="h6">Hello, {user.name}!</Typography>
+          <Typography>Email: {user.email}</Typography>
+        </Box>
+      ) : (
+        <Typography>
+          You are not logged in. Please sign in to access the application.
+        </Typography>
+      )}
     </Container>
   );
 }
