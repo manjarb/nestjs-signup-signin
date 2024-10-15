@@ -46,5 +46,6 @@ import { UserModule } from './modules/user/user.module';
       useClass: ThrottlerGuard,
     },
   ],
+  exports: [],
 })
 export class AppModule {}

@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as bcrypt from 'bcrypt';
+import { WinstonLoggerService } from 'src/common/logger/winston-logger/winston-logger.service';
 import { AUTH_ERRORS } from 'src/constant/auth.constants';
 import {
   mockConfigService,
@@ -10,6 +11,7 @@ import {
   mockUser,
   mockUserService,
 } from 'src/mocks/auth.mock';
+import { mockWinstonLoggerService } from 'src/mocks/common.mock';
 import { UserService } from 'src/modules/user/services/user.service';
 
 import { SignupResponse } from '../auth.interface';
@@ -18,9 +20,6 @@ import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let authService: AuthService;
-  let userService: UserService;
-  let jwtService: JwtService;
-  let configService: ConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -29,13 +28,11 @@ describe('AuthService', () => {
         { provide: UserService, useValue: mockUserService },
         { provide: JwtService, useValue: mockJwtService },
         { provide: ConfigService, useValue: mockConfigService },
+        { provide: WinstonLoggerService, useValue: mockWinstonLoggerService },
       ],
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
-    userService = module.get<UserService>(UserService);
-    jwtService = module.get<JwtService>(JwtService);
-    configService = module.get<ConfigService>(ConfigService);
   });
 
   afterEach(() => {
@@ -103,7 +100,11 @@ describe('AuthService', () => {
       );
 
       expect(result).toEqual({
-        user: mockUser.toObject(),
+        user: {
+          ...mockUser.toObject(),
+          createdAt: expect.any(Date),
+          updatedAt: expect.any(Date),
+        },
         accessToken: 'access-token',
         refreshToken: 'access-token',
       });

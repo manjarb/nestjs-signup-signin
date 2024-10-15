@@ -2,7 +2,9 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
+import { WinstonLoggerService } from 'src/common/logger/winston-logger/winston-logger.service';
 import { mockUser } from 'src/mocks/auth.mock';
+import { mockWinstonLoggerService } from 'src/mocks/common.mock';
 
 import { User, UserDocument } from '../schemas/user.schema';
 
@@ -25,6 +27,7 @@ describe('UserService', () => {
           provide: getModelToken(User.name), // Mocking the Mongoose model
           useValue: mockUserModel,
         },
+        { provide: WinstonLoggerService, useValue: mockWinstonLoggerService },
       ],
     }).compile();
 
