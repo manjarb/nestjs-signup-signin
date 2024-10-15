@@ -30,6 +30,7 @@ function SigninPage() {
   return (
     <Container component="main" maxWidth="xs">
       <Box
+        component="section"
         sx={{
           marginTop: 8,
           marginBottom: 2,
@@ -37,18 +38,35 @@ function SigninPage() {
       >
         <Card sx={{ width: '100%' }}>
           <CardContent>
-            <Typography component="h1" variant="h5" align="center" gutterBottom>
+            <Typography
+              component="h1"
+              variant="h5"
+              align="center"
+              gutterBottom
+              role="heading"
+              aria-level={1}
+            >
               Sign In
             </Typography>
             <SigninForm onSubmit={handleSignin} isLoading={isLoading} />
-            {error && <Alert severity="error">{error}</Alert>}
+            {error && (
+              <Alert severity="error" role="alert" aria-live="assertive">
+                {error}
+              </Alert>
+            )}
           </CardContent>
         </Card>
       </Box>
 
       <Typography variant="body2" align="center">
         Don't have an account?{' '}
-        <Link onClick={() => navigate('/signup')} style={{ cursor: 'pointer' }}>
+        <Link
+          onClick={() => navigate('/signup')}
+          style={{ cursor: 'pointer' }}
+          role="link"
+          tabIndex={0}
+          aria-label="Navigate to Sign Up page"
+        >
           Sign Up
         </Link>
       </Typography>

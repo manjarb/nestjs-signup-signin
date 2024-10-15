@@ -21,13 +21,29 @@ const SigninForm: React.FC<SigninFormProps> = ({ isLoading, onSubmit }) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <FormInput name="email" control={control} label="Email" />
+    <Box
+      component="form"
+      onSubmit={handleSubmit(onFormSubmit)}
+      noValidate
+      // Announce form status updates for screen readers
+      aria-live="polite"
+    >
+      <FormInput
+        name="email"
+        control={control}
+        label="Email"
+        aria-label="Enter your email address"
+        aria-describedby="email-error"
+        aria-required="true"
+      />
       <FormInput
         name="password"
         control={control}
         label="Password"
         type="password"
+        aria-label="Enter your password"
+        aria-describedby="password-error"
+        aria-required="true"
       />
       <Button
         type="submit"
@@ -35,6 +51,9 @@ const SigninForm: React.FC<SigninFormProps> = ({ isLoading, onSubmit }) => {
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
         disabled={isLoading}
+        aria-busy={isLoading ? 'true' : 'false'}
+        aria-disabled={isLoading ? 'true' : 'false'}
+        aria-label="Sign In button"
         startIcon={isLoading ? <CircularProgress size={20} /> : null}
       >
         Sign In
