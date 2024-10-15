@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as bcrypt from 'bcrypt';
+import { AUTH_ERRORS } from 'src/constant/auth.constants';
 import {
   mockConfigService,
   mockJwtService,
@@ -38,7 +39,7 @@ describe('AuthService', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks(); // Clear mocks between tests
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
@@ -103,6 +104,81 @@ describe('AuthService', () => {
 
       expect(result).toEqual({
         user: mockUser.toObject(),
+        accessToken: 'access-token',
+        refreshToken: 'access-token',
+      });
+    });
+  });
+
+  describe('signin', () => {
+    it('should throw unauthorized error if user is not found', async () => {
+      mockUserService.findUserByEmail.mockResolvedValue(null);
+
+      await expect(
+        authService.signin(mockUser.email, mockUser.password),
+      ).rejects.toThrow(
+        new HttpException(AUTH_ERRORS.USER_NOT_FOUND, HttpStatus.UNAUTHORIZED),
+      );
+
+      expect(mockUserService.findUserByEmail).toHaveBeenCalledWith(
+        mockUser.email,
+      );
+    });
+
+    it('should throw unauthorized error if password is incorrect', async () => {
+      mockUserService.findUserByEmail.mockResolvedValue(mockUser);
+      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false as never);
+
+      await expect(
+        authService.signin(mockUser.email, mockUser.password),
+      ).rejects.toThrow(
+        new HttpException(
+          AUTH_ERRORS.PASSWORD_INCORRECT,
+          HttpStatus.UNAUTHORIZED,
+        ),
+      );
+
+      expect(mockUserService.findUserByEmail).toHaveBeenCalledWith(
+        mockUser.email,
+      );
+      expect(bcrypt.compare).toHaveBeenCalledWith(
+        mockUser.password,
+        mockUser.password,
+      );
+    });
+
+    it('should successfully sign in a user and return tokens', async () => {
+      mockUserService.findUserByEmail.mockResolvedValue(mockUser);
+      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
+      mockJwtService.sign.mockReturnValue('access-token');
+      mockConfigService.get.mockReturnValue('7d');
+
+      const result = await authService.signin(
+        mockUser.email,
+        mockUser.password,
+      );
+
+      expect(mockUserService.findUserByEmail).toHaveBeenCalledWith(
+        mockUser.email,
+      );
+      expect(bcrypt.compare).toHaveBeenCalledWith(
+        mockUser.password,
+        mockUser.password,
+      );
+      expect(mockJwtService.sign).toHaveBeenCalledWith({
+        sub: mockUser._id,
+        email: mockUser.email,
+        role: mockUser.role,
+      });
+      expect(result).toEqual({
+        user: {
+          _id: mockUser._id,
+          name: mockUser.name,
+          email: mockUser.email,
+          role: mockUser.role,
+          createdAt: expect.any(Date),
+          updatedAt: expect.any(Date),
+        },
         accessToken: 'access-token',
         refreshToken: 'access-token',
       });
