@@ -23,6 +23,17 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      // Add formatting rules below
+      'indent': ['error', 2], // Enforce 2 spaces for indentation
+      'quotes': ['error', 'single'], // Enforce single quotes
+      'semi': ['error', 'always'], // Enforce semicolons
+      'comma-dangle': ['error', 'always-multiline'], // Trailing commas
+      'object-curly-spacing': ['error', 'always'], // Spaces inside curly braces
+      'array-bracket-spacing': ['error', 'never'], // No space inside array brackets
+      'key-spacing': ['error', { 'beforeColon': false, 'afterColon': true }], // Space after colon in objects
+      'no-trailing-spaces': ['error'], // No trailing whitespace
+      'space-before-function-paren': ['error', 'never'], // No space before function parenthesis
+      'arrow-spacing': ['error', { 'before': true, 'after': true }], // Enforce space around arrow functions
     },
   },
 )
