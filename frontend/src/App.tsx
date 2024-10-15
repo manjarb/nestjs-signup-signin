@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { Box, CircularProgress } from '@mui/material';
+import AuthGuard from './components/AuthGuard/AuthGuard';
 
 // Lazy-load the components for code splitting
 const SignupPage = lazy(() => import('./pages/Signup/SignupPage'));
@@ -32,7 +33,14 @@ function App() {
           <Route path="/" element={<Navigate to="/signup" />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/signin" element={<SigninPage />} />
-          <Route path="/application" element={<ApplicationPage />} />
+          <Route
+            path="/application"
+            element={
+              <AuthGuard>
+                <ApplicationPage />
+              </AuthGuard>
+            }
+          />
         </Routes>
       </Suspense>
     </Router>
