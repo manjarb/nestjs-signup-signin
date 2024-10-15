@@ -40,6 +40,23 @@ describe('UserService', () => {
     expect(service).toBeDefined();
   });
 
+  describe('hashPassword', () => {
+    it('should hash a password correctly', async () => {
+      const password = 'Password@123';
+      const salt = 'generatedSalt123';
+      const hashedPassword = 'hashedPassword';
+
+      jest.spyOn(bcrypt, 'genSalt').mockResolvedValue(salt as never);
+      jest.spyOn(bcrypt, 'hash').mockResolvedValue(hashedPassword as never);
+
+      const result = await service['hashPassword'](password);
+
+      expect(bcrypt.genSalt).toHaveBeenCalledWith(10);
+      expect(bcrypt.hash).toHaveBeenCalledWith(password, salt);
+      expect(result).toBe(hashedPassword);
+    });
+  });
+
   describe('findUserByEmail', () => {
     it('should return a user if one is found', async () => {
       mockUserModel.findOne.mockResolvedValue(mockUser);
@@ -68,6 +85,8 @@ describe('UserService', () => {
     it('should hash the password and create a new user', async () => {
       const plainPassword = 'Password@123';
       const hashedPassword = 'hashedPassword';
+      const salt = 'generatedSalt123';
+      jest.spyOn(bcrypt, 'genSalt').mockResolvedValue(salt as never);
       jest.spyOn(bcrypt, 'hash').mockResolvedValue(hashedPassword as never);
       mockUserModel.create.mockResolvedValue({
         ...mockUser,
@@ -80,12 +99,13 @@ describe('UserService', () => {
         plainPassword,
       );
 
-      expect(bcrypt.hash).toHaveBeenCalledWith(plainPassword, 10);
+      expect(bcrypt.hash).toHaveBeenCalledWith(plainPassword, salt);
       expect(userModel.create).toHaveBeenCalledWith({
         name: 'John Doe',
         email: 'john@example.com',
         password: hashedPassword,
       });
+      delete result.toObject;
       expect(result).toEqual({
         _id: '123',
         name: 'John Doe',

@@ -4,7 +4,7 @@ import {
   mockAuthService,
 } from 'src/mocks/auth.mock';
 
-import { SignupDto } from '../dto/auth.dto';
+import { SigninDto, SignupDto } from '../dto/auth.dto';
 import { AuthService } from '../services/auth.service';
 
 import { AuthController } from './auth.controller';
@@ -45,17 +45,33 @@ describe('AuthController', () => {
       const result = await controller.signup(signupDto);
 
       expect(result).toEqual(
-        createExpectedSignupResponse(
-          signupDto.name,
-          signupDto.email,
-          signupDto.password,
-        ),
+        createExpectedSignupResponse(signupDto.name, signupDto.email),
       );
 
       expect(mockAuthService.signup).toHaveBeenCalledWith(
         signupDto.name,
         signupDto.email,
         signupDto.password,
+      );
+    });
+  });
+
+  describe('signin', () => {
+    it('should sign in a user and return tokens', async () => {
+      const signinDto: SigninDto = {
+        email: 'john@example.com',
+        password: 'Password@123',
+      };
+
+      const result = await controller.signin(signinDto);
+
+      expect(result).toEqual(
+        createExpectedSignupResponse(signinDto.email, signinDto.password),
+      );
+
+      expect(mockAuthService.signin).toHaveBeenCalledWith(
+        signinDto.email,
+        signinDto.password,
       );
     });
   });

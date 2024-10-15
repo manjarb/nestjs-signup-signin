@@ -1,7 +1,7 @@
 import { User } from '../user/schemas/user.schema';
 
 export interface SignupResponse {
-  user: User;
+  user: Omit<User, 'password'>;
   accessToken: string;
   refreshToken: string;
 }

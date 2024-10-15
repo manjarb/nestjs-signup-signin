@@ -9,19 +9,24 @@ export const mockUser = {
   role: UserRole.USER,
   createdAt: new Date(),
   updatedAt: new Date(),
+  toObject() {
+    return {
+      _id: '123',
+      name: 'John Doe',
+      email: 'john@example.com',
+      role: UserRole.USER,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  },
 } as User;
 
-export function createExpectedSignupResponse(
-  name: string,
-  email: string,
-  password: string,
-) {
+export function createExpectedSignupResponse(name: string, email: string) {
   return {
     user: {
       _id: '123',
       name,
       email,
-      password,
       role: UserRole.USER,
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date),
@@ -32,11 +37,12 @@ export function createExpectedSignupResponse(
 }
 
 export const mockAuthService = {
-  signup: jest.fn(
-    (name: string, email: string, password: string): SignupResponse => {
-      return createExpectedSignupResponse(name, email, password);
-    },
-  ),
+  signup: jest.fn((name: string, email: string): SignupResponse => {
+    return createExpectedSignupResponse(name, email);
+  }),
+  signin: jest.fn((name: string, email: string): SignupResponse => {
+    return createExpectedSignupResponse(name, email);
+  }),
 };
 
 export const mockUserService = {

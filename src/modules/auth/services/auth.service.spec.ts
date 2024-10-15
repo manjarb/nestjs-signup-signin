@@ -45,19 +45,6 @@ describe('AuthService', () => {
     expect(authService).toBeDefined();
   });
 
-  describe('hashPassword', () => {
-    it('should hash a password correctly', async () => {
-      const password = 'Password@123';
-      const hashedPassword = 'hashedPassword';
-      jest.spyOn(bcrypt, 'hash').mockResolvedValue(hashedPassword as never);
-
-      const result = await authService['hashPassword'](password);
-
-      expect(bcrypt.hash).toHaveBeenCalledWith(password, 10);
-      expect(result).toBe(hashedPassword);
-    });
-  });
-
   describe('comparePassword', () => {
     it('should compare passwords correctly', async () => {
       const plainPassword = 'Password@123';
@@ -111,10 +98,11 @@ describe('AuthService', () => {
       expect(mockUserService.createUser).toHaveBeenCalledWith(
         mockUser.name,
         mockUser.email,
-        'hashedPassword',
+        'Password@123',
       );
+
       expect(result).toEqual({
-        user: mockUser,
+        user: mockUser.toObject(),
         accessToken: 'access-token',
         refreshToken: 'access-token',
       });
