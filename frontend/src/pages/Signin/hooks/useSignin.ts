@@ -27,6 +27,7 @@ export const useSignin = () => {
         `${config.apiBaseUrl}/v1/auth/signin`,
         computeSigninPayload(data),
       );
+
       return response.data.data;
     } catch (err: unknown) {
       if (err instanceof AxiosError && err.response) {
@@ -34,6 +35,7 @@ export const useSignin = () => {
           err.response.data?.message || 'Signin failed. Please try again.',
         );
       } else {
+        console.log('222');
         setError('An unexpected error occurred. Please try again.');
       }
       return null;

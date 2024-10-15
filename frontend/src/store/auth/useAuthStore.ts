@@ -1,12 +1,10 @@
 import { atom, useAtom } from 'jotai';
 import { User } from '../../interfaces/auth.interface';
 
-// Atoms for auth state
 const userAtom = atom<User | null>(null);
 const accessTokenAtom = atom<string | null>(null);
 const refreshTokenAtom = atom<string | null>(null);
 
-// Merged custom hook to access and set auth state
 export const useAuthStore = () => {
   const [user, setUser] = useAtom(userAtom);
   const [accessToken, setAccessToken] = useAtom(accessTokenAtom);

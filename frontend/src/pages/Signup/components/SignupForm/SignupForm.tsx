@@ -35,7 +35,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isLoading, onSubmit }) => {
         control={control}
         label="Name"
         aria-label="Enter your name"
-        aria-required="true"
+        aria-required={true}
         aria-describedby="name-error"
       />
       <FormInput
@@ -43,7 +43,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isLoading, onSubmit }) => {
         control={control}
         label="Email"
         aria-label="Enter your email address"
-        aria-required="true"
+        aria-required={true}
         aria-describedby="email-error"
       />
       <FormInput
@@ -52,7 +52,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isLoading, onSubmit }) => {
         label="Password"
         type="password"
         aria-label="Enter your password"
-        aria-required="true"
+        aria-required={true}
         aria-describedby="password-error"
       />
       <FormInput
@@ -61,7 +61,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ isLoading, onSubmit }) => {
         label="Confirm Password"
         type="password"
         aria-label="Re-enter your password to confirm"
-        aria-required="true"
+        aria-required={true}
         aria-describedby="confirm-password-error"
       />
       <Button

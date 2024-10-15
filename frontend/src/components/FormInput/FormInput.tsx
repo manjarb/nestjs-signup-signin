@@ -9,6 +9,9 @@ interface FormInputProps {
   label: string;
   type?: string;
   defaultValue?: string;
+  'aria-label'?: string;
+  'aria-describedby'?: string;
+  'aria-required'?: boolean;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -17,6 +20,7 @@ const FormInput: React.FC<FormInputProps> = ({
   label,
   type = 'text',
   defaultValue = '',
+  ...ariaProps
 }) => {
   return (
     <Controller
@@ -32,6 +36,7 @@ const FormInput: React.FC<FormInputProps> = ({
           margin="normal"
           error={!!error}
           helperText={error ? error.message : null}
+          {...ariaProps}
         />
       )}
     />

@@ -43,7 +43,6 @@ export class AuthService {
     const user = await this.userService.createUser(name, email, password);
     this.logger.log(`User with email ${email} successfully signed up`);
 
-    // Generate tokens
     const accessToken = this.generateAccessToken(user);
     const refreshToken = this.generateRefreshToken(user);
 
@@ -77,7 +76,6 @@ export class AuthService {
     // eslint-disable-next-line
     const { password: _, ...userWithoutPassword } = user.toObject();
 
-    // Generate tokens
     const accessToken = this.generateAccessToken(user);
     const refreshToken = this.generateRefreshToken(user);
 

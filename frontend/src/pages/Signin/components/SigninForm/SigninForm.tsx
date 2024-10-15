@@ -34,7 +34,7 @@ const SigninForm: React.FC<SigninFormProps> = ({ isLoading, onSubmit }) => {
         label="Email"
         aria-label="Enter your email address"
         aria-describedby="email-error"
-        aria-required="true"
+        aria-required={true}
       />
       <FormInput
         name="password"
@@ -43,7 +43,7 @@ const SigninForm: React.FC<SigninFormProps> = ({ isLoading, onSubmit }) => {
         type="password"
         aria-label="Enter your password"
         aria-describedby="password-error"
-        aria-required="true"
+        aria-required={true}
       />
       <Button
         type="submit"

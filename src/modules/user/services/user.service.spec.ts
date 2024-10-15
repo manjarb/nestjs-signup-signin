@@ -24,7 +24,7 @@ describe('UserService', () => {
       providers: [
         UserService,
         {
-          provide: getModelToken(User.name), // Mocking the Mongoose model
+          provide: getModelToken(User.name),
           useValue: mockUserModel,
         },
         { provide: WinstonLoggerService, useValue: mockWinstonLoggerService },
