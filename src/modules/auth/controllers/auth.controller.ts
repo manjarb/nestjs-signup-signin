@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
 @ApiTags('Auth')
 @Controller({
   path: 'auth',
-  version: '1',
+  version: '/v1',
 })
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
