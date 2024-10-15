@@ -18,3 +18,10 @@ export interface SignupPayload {
   email: string;
   password: string;
 }
+
+export interface SigninPayload {
+  email: string;
+  password: string;
+}
+
+export type SigninResponseData = SignupResponseData

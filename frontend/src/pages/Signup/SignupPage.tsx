@@ -1,8 +1,9 @@
-import { Alert, Box, Card, CardContent, Container, Typography } from '@mui/material';
-import SignupForm, { SignupFormData } from './components/SignupForm/SignupForm';
+import { Alert, Box, Card, CardContent, Container, Link, Typography } from '@mui/material';
+import SignupForm from './components/SignupForm/SignupForm';
 import { useNavigate } from 'react-router-dom';
 import { useSignup } from './hooks/useSignup';
 import { useAuthStore } from '../../store/auth/useAuthStore';
+import { SignupFormData } from '../../validations/signupValidation';
 
 function SignupPage() {
   const { signup, isLoading, error } = useSignup();
@@ -27,6 +28,7 @@ function SignupPage() {
       <Box
         sx={{
           marginTop: 8,
+          marginBottom: 2,
         }}
       >
         <Card sx={{ width: '100%' }}>
@@ -34,11 +36,18 @@ function SignupPage() {
             <Typography component="h1" variant="h5" align="center" gutterBottom>
               Sign Up
             </Typography>
-            <SignupForm onSubmit={handleSignup} isLoading={isLoading}/>
+            <SignupForm onSubmit={handleSignup} isLoading={isLoading} />
             {error && <Alert severity="error">{error}</Alert>}
           </CardContent>
         </Card>
       </Box>
+
+      <Typography variant="body2" align="center">
+        Already have an account?{' '}
+        <Link onClick={() => navigate('/signin')} style={{ cursor: 'pointer' }}>
+          Sign In
+        </Link>
+      </Typography>
     </Container>
   );
 }

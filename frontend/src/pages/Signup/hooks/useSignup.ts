@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { SignupPayload, SignupResponseData } from '../../../interfaces/auth.interface';
 import { GenericResponse } from '../../../interfaces/general.interface';
 import config from '../../../configs/config';
-import { SignupFormData } from '../components/SignupForm/SignupForm';
+import { SignupFormData } from '../../../validations/signupValidation';
 
 export const useSignup = () => {
   const [isLoading, setIsLoading] = useState(false);
