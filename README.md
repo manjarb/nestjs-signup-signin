@@ -173,6 +173,11 @@ Request Body (JSON)
 }
 ```
 
+### Swagger Documentation
+
+The API is documented using Swagger. You can access the API documentation by navigating to:
+http://localhost:3100/api-docs
+
 ## Future Improvements
 
 - **Backend Enhancements**:
