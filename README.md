@@ -128,7 +128,6 @@ Request Body (JSON)
     "user": {
       "name": "John Doe",
       "email": "johndoe13@example.com",
-      "password": "$2b$10$zi4LG0Wd6qssTxmhwfr3IelODLcX7lFiMRxSGx4efl.oPaEECIseW",
       "role": "user",
       "_id": "670f052e07b5a087ed644bb7",
       "createdAt": "2024-10-16T00:13:34.894Z",
