@@ -20,7 +20,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "compose:up": "docker-compose up",
+    "compose:up": "docker-compose up --build",
+    "compose:down": "docker-compose down",
     "dev": "concurrently \"npm run start:dev\" \"npm run dev:frontend\"",
     "dev:frontend": "cd frontend && npm run dev"
   },

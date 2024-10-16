@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # MongoDB service
   mongo:
     image: mongo
     container_name: my-mongo-container
@@ -9,6 +10,19 @@ services:
     volumes:
       - mongo-data:/data/db  # Persist MongoDB data in a named volume
 
+  # Backend service
+  app:
+    build:
+      context: .  # Use the current directory as the build context
+      dockerfile: Dockerfile  # Use the Dockerfile in the root directory
+    container_name: fullstack-app
+    ports:
+      - "3100:3100"  # Expose the backend service on port 3100
+    depends_on:
+      - mongo  # Ensure MongoDB starts before the backend
+    environment:
+      # Set up environment variables for MongoDB connection
+      MONGO_URI: "mongodb://my-mongo-container:27017/easygenerator"  # Update the URI as needed
+
 volumes:
-  # to persist the MongoDB data across container restarts.
   mongo-data:

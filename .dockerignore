@@ -1,0 +1,41 @@
+# Ignore node_modules to avoid copying local dependencies
+node_modules
+frontend/node_modules
+
+# Ignore log files
+*.log
+logs/
+
+# Ignore cache and temp files
+*.tmp
+*.temp
+*.swp
+.nyc_output
+coverage/
+dist/
+.vscode/
+.idea/
+.DS_Store
+
+# Ignore test files and coverage results
+test/
+tests/
+__tests__/
+coverage/
+jest.config.js
+
+# Ignore build output from the frontend and backend (to prevent redundant copying)
+frontend/dist/
+dist/
+
+# Ignore Docker-related files
+Dockerfile
+docker-compose.yml
+docker-compose.prod.yml
+
+# Ignore Git and version control directories
+.git
+.gitignore
+
+# Ignore any local configuration or system files
+*.local
